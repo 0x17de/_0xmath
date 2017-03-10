@@ -37,7 +37,7 @@ public:
     inline T data(int y, int x) const { return _data[y*M+x]; }
 
     template<class Fn>
-    void forEachCoord(Fn f); ///< (int y, int x)
+    void forEachCoord(Fn f) const; ///< (int y, int x)
 
     void swapRows(int y1, int y2);
     bool reduce();
@@ -83,12 +83,10 @@ Matrix<N, M, T>& Matrix<N, M, T>::operator*=(const Matrix<N, M, T>& other) {
 
 template<int N, int M, class T>
 std::ostream& operator<<(std::ostream& os, const Matrix<N, M, T>& m) {
-    for (int y = 0; y < N; ++y) {
-        for (int x = 0; x < M; ++x) {
-            os << std::setprecision(3) << std::setw(5) << m.data(y, x) << " ";
-        }
-        os << std::endl;
-    }
+    m.forEachCoord([&](int y, int x){
+        os << std::setprecision(3) << std::setw(5) << m.data(y, x) << " ";
+        if (x == N-1) os << std::endl;
+    });
     return os;
 }
 
@@ -100,7 +98,7 @@ Matrix<N, M, T> operator+(Matrix<N, M, T> lhs, const Matrix<N, M, T>& rhs) {
 
 template<int N, int M, class T>
 template<class Fn>
-void Matrix<N, M, T>::forEachCoord(Fn f) {
+void Matrix<N, M, T>::forEachCoord(Fn f) const {
     for (int y = 0; y < N; ++y) {
         for (int x = 0; x < M; ++x) {
             f(y, x);
