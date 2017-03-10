@@ -20,6 +20,8 @@ int main() {
 
         auto m3 = m1 * m2;
         std::cout << m3 << std::endl;
+
+        m3.reduce();
     }
 
 }
