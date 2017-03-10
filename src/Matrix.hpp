@@ -36,6 +36,10 @@ public:
                 *intoIt++ += fromValue;
             });
     }
+    Matrix& operator*=(const Matrix& other) {
+        auto temp = *this * other;
+        _data = std::move(temp._data);
+    }
 
     inline decltype((_data)) data() { return _data; }
     inline decltype((_data)) data() const { return _data; }
