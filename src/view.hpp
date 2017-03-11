@@ -5,7 +5,7 @@
 #include <type_traits>
 
 
-template<int N, int M, class T>
+template<int N, int M, class T, bool IsMatrixView>
 class Matrix;
 
 

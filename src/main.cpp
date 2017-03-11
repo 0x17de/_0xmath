@@ -23,6 +23,15 @@ int main() {
 
         m3.reduce();
         std::cout << m3 << std::endl;
+
+        Matrix<2, 2, double, true> m3subview(m3, 0, 0);
+        std::cout << m3subview << std::endl;
+
+        m3subview.data(0, 0) = 0;
+        m3.data(1, 1) = 0;
+
+        std::cout << m3subview << std::endl;
+        std::cout << m3 << std::endl;
     }
 
 }
