@@ -48,21 +48,22 @@ public:
 
 
 template<int N, int M, class T>
+void Matrix<N, M, T>::swapRows(int y1, int y2) {
+    modify2(row_view(y1, *this), row_view(y2, *this), [](T& left, T& right) {
+        std::swap(left, right);
+    });
+}
+
+template<int N, int M, class T>
 bool Matrix<N, M, T>::reduce() {
-    /*
     auto view = column_view(0, *this);
     auto viewEnd = view.end();
     auto it = std::find_if(view.begin(), viewEnd, [](T n) { return n != 0; });
     if (it == viewEnd) return false;
 
-    T firstNumber = *it;
-    std::cout << firstNumber << std::endl;
-    if (firstNumber != 1) {
+    int rowIndex = std::distance(view.begin(), it);
+    if (rowIndex != 0) swapRows(0, rowIndex);
 
-    }
-    */
-
-    //swapRows(y, 0);
     return true;
 }
 

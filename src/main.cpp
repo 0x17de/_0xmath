@@ -22,6 +22,7 @@ int main() {
         std::cout << m3 << std::endl;
 
         m3.reduce();
+        std::cout << m3 << std::endl;
     }
 
 }

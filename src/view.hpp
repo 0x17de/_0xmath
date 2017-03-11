@@ -55,6 +55,7 @@ constexpr int matrix_iterator_distance_to_end<MatrixRowView>::value(int i) { ret
 template<class Type, class M>
 class matrix_iterator {
     using _M = typename std::decay<M>::type;
+    using _R = typename std::conditional<std::is_const<typename std::remove_reference<M>::type>::value, typename _M::type, typename _M::type&>::type;
 
     mutable int _index;
     M& _matrix;
@@ -66,8 +67,8 @@ public:
     matrix_iterator(typename std::remove_const<matrix_iterator>::type& other) : _index(other._index), _matrix(other._matrix) { }
     matrix_iterator(const matrix_iterator& other) : _index(other._index), _matrix(other._matrix) { }
 
-    inline typename _M::type operator*() { return _matrix.data(_index); }
-    inline typename _M::type operator*() const { return _matrix.data(_index); }
+    inline _R operator*() { return _matrix.data(_index); }
+    inline const typename _M::type& operator*() const { return _matrix.data(_index); }
     inline matrix_iterator& operator++() { _index += matrix_iterator_distance<Type>::template value<M>(); return *this; }
     inline matrix_iterator operator++(int) { auto tmp = *this; _index += matrix_iterator_distance<Type>::template value<M>(); return this; }
     inline bool operator==(const matrix_iterator& other) const { return _index == other._index; }
@@ -78,7 +79,9 @@ public:
 namespace std {
     template<class Type, class M>
     struct iterator_traits<matrix_iterator<Type, M>> {
-        using value_type = typename M::type;
+        using _M = typename std::decay<M>::type;
+        using _R = typename std::conditional<std::is_const<typename std::remove_reference<M>::type>::value, typename _M::type, typename _M::type&>::type;
+        using value_type = _R;
         using difference_type = int;
         using iterator_category = std::forward_iterator_tag;
     };
