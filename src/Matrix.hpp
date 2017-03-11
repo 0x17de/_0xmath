@@ -21,7 +21,7 @@ struct MatrixViewProxy<true> {
 };
 
 
-template<int N, int M, class T, bool IsMatrixView = false>
+template<int N, int M, class T = double, bool IsMatrixView = false>
 class Matrix {
     using MatrixDataBase = std::array<T, N*M>;
     using MatrixDataView = std::array<T*, N*M>;
